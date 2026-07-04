@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Consistency Challenge - Setup Sync</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: #1a1a2e;
+            color: #fff;
+            min-height: 100vh;
+            padding: 24px 20px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        h1 { font-size: 28px; margin-bottom: 8px; }
+        h2 { font-size: 20px; margin: 32px 0 12px; color: #c084fc; }
+        p, li { font-size: 14px; line-height: 1.7; color: #a0a0c0; }
+        ol { padding-left: 20px; margin-bottom: 16px; }
+        li { margin-bottom: 8px; }
+        code {
+            background: #2a2a4a;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 13px;
+            color: #4ade80;
+        }
+        pre {
+            background: #0f0f23;
+            border: 1px solid #3a3a5c;
+            border-radius: 12px;
+            padding: 16px;
+            overflow-x: auto;
+            font-size: 13px;
+            line-height: 1.6;
+            margin: 12px 0;
+            color: #e0e0e0;
+        }
+        .note {
+            background: #2d1b4e;
+            border: 1px solid #9b59b6;
+            border-radius: 12px;
+            padding: 16px;
+            margin: 16px 0;
+        }
+        .note p { color: #c084fc; }
+        a { color: #c084fc; }
+        .step-number {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            background: #9b59b6;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 24px;
+            font-size: 12px;
+            font-weight: 700;
+            color: white;
+            margin-right: 8px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔗 Connect with Your Friend</h1>
+    <p>This guide helps you set up Firebase so you and your friend can share a challenge and see each other's progress in real time.</p>
+
+    <h2>How It Works</h2>
+    <p>One person creates the challenge, gets a <strong>Share Code</strong>, and sends it to the other. Both phones sync through Firebase — when one person checks a task, the other sees it instantly.</p>
+
+    <h2>Setup (One-Time, 5 Minutes)</h2>
+
+    <ol>
+        <li>Go to <a href="https://console.firebase.google.com/" target="_blank">Firebase Console</a> and create a new project (free tier)</li>
+        <li>Click <strong>Build → Realtime Database → Create Database</strong></li>
+        <li>Choose any location, then select <strong>"Start in test mode"</strong></li>
+        <li>Click <strong>Project Settings</strong> (gear icon) → scroll to "Your apps" → click the <strong>Web icon (&lt;/&gt;)</strong></li>
+        <li>Register an app name (anything), then copy the <code>firebaseConfig</code> object</li>
+        <li>Open <code>firebase-config.js</code> in your project and paste your config values</li>
+    </ol>
+
+    <div class="note">
+        <p>⚠️ Keep "test mode" rules for now (they expire in 30 days). For longer use, update your database rules to:</p>
+    </div>
+
+    <pre>{
+  "rules": {
+    "challenges": {
+      "$challengeId": {
+        ".read": true,
+        ".write": true
+      }
+    }
+  }
+}</pre>
+
+    <h2>Your Firebase Config File</h2>
+    <p>Create <code>firebase-config.js</code> in your project folder with this structure:</p>
+
+    <pre>// firebase-config.js
+const FIREBASE_CONFIG = {
+    apiKey: "YOUR_API_KEY",
+    authDomain: "YOUR_PROJECT.firebaseapp.com",
+    databaseURL: "https://YOUR_PROJECT-default-rtdb.firebaseio.com",
+    projectId: "YOUR_PROJECT",
+    storageBucket: "YOUR_PROJECT.appspot.com",
+    messagingSenderId: "123456789",
+    appId: "1:123456789:web:abcdef"
+};</pre>
+
+    <h2>How to Use</h2>
+    <ol>
+        <li><strong>Person 1</strong> creates a challenge normally, then taps <strong>"Share Challenge"</strong> on the challenge page</li>
+        <li>A <strong>Share Code</strong> appears — send it to your friend (text, screenshot, etc.)</li>
+        <li><strong>Person 2</strong> opens the app, taps <strong>"Join Challenge"</strong> on the home screen, and enters the code</li>
+        <li>Both phones now sync — task completions update in real time!</li>
+    </ol>
+
+    <div class="note">
+        <p>📱 Progress Pics remain personal and are NOT synced — only task completions and scores sync between challengers.</p>
+    </div>
+
+    <h2>What Syncs</h2>
+    <ul style="list-style: none; padding: 0;">
+        <li style="margin-bottom: 6px;">✅ Task completions (both people's checkboxes)</li>
+        <li style="margin-bottom: 6px;">✅ Scores and perfect days</li>
+        <li style="margin-bottom: 6px;">✅ Challenge details (name, goal, tasks)</li>
+        <li style="margin-bottom: 6px;">❌ Progress pics (personal, stays on your device)</li>
+    </ul>
+
+    <p style="margin-top: 32px; text-align: center;"><a href="index.html">← Back to App</a></p>
+</body>
+</html>
